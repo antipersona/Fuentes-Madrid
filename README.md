@@ -5,6 +5,9 @@ en un archivo csv compatible con [MyMaps](https://www.google.com/maps/d/u/0/?hl=
 De forma que al subirlo, puedas tener un mapa de las fuentes de Madrid en tu aplicación de Google Maps
 
 ## Uso:
+Una vez subido el archivo generado a MyMaps, estará disponible en tu cuenta de Google
 ![1](/Imagenes/1.jpg)
+Ir a guardado y bajar hasta Maps
 ![2](/Imagenes/2.jpg)
+Pulsar en Maps y seleccionar el mapa de las fuentes
 ![3](/Imagenes/3.jpg)
