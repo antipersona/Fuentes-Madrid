@@ -1,5 +1,5 @@
-/* compile using g++ main.cpp -o main -ljsoncpp */
 
+// Compila utilizando g++ main.cpp -o main -ljsoncpp
 #include <fstream>
 #include <iostream>
 #include <json/json.h>
@@ -7,7 +7,7 @@
 using namespace std;
 
 int main(int argc, char **argv) {
-    // Get path from args
+    // Cogememos las rutas de los argumentos de entrada
     if (argc < 3) {
         cerr << "Usage: " << argv[0]
              << " <json path (input)> <csv path (output)>" << endl;
@@ -16,7 +16,7 @@ int main(int argc, char **argv) {
     string in_path = argv[1];
     string out_path = argv[2];
 
-    // Read file and parse JSON
+    // Leemos el archivo de entrada
     ifstream in_file(in_path);
     if (!in_file.is_open()) {
         cerr << "Error: could not open file " << in_path << endl;
@@ -26,7 +26,7 @@ int main(int argc, char **argv) {
     in_file >> root;
     in_file.close();
 
-    // Open output file
+    // Abrimos el archivo de salida
     ofstream out_file(out_path);
     if (!out_file.is_open()) {
         cerr << "Error: could not open file " << out_path << endl;
@@ -41,11 +41,11 @@ int main(int argc, char **argv) {
 
     out_file << "WKT,nombre" << endl;
 
-    // Iterate over array elements
+    // Recorremos los elementos 
     for (Json::Value::ArrayIndex i = 0; i < root.size(); i++) {
 
-        // maps limits the number of elements (2000) so
-        // we will have to use more than one file
+        /* Para no superar el limite de elementos
+            crearemos otro fichero de salida cada 1000 fuentes*/
         if (i % 1000 == 0 && i != 0) { // might be useful to be able to toggle this using args
             out_file.close();
             auto dot_pos = out_path.find_last_of(".");
@@ -65,13 +65,10 @@ int main(int argc, char **argv) {
                  fountain["DIRECCION_AUX"].asString();
         f_long = fountain["LONGITUD"].asString();
         f_lat = fountain["LATITUD"].asString();
-        // f_desc = fountain["TIPO_VIA"].asString() + " " +
-        //          fountain["NOM_VIA"].asString() + " " +
-                //  fountain["NUM_VIA"].asString();
+        
+        // Escribimos en el fichero
 
-        // Write to file
-
-        if (fountain["ESTADO"].asString() != "NO_OPERATIVO")
+        if (fountain["ESTADO"].asString() != "NO_OPERATIVO"|| fountain["ESTADO"].asString() != "CERRADA_TEMPORALMENT")
             out_file << "\"POINT(" << f_long << " " << f_lat << ")\""
                      << "," << f_name << endl
                      << endl;
@@ -79,6 +76,7 @@ int main(int argc, char **argv) {
 
     out_file.close();
 
+    //No fumen
     cout << "Done!" << endl;
 
     return 0;
